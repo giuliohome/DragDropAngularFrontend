@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./dropfile.component.css']
 })
 export class DropfileComponent implements OnInit {
+  heroes: string[] = []; 
   error: string = "";
   dragAreaClass: string = "";
   onFileChange(event: any) {
@@ -73,11 +74,12 @@ export class DropfileComponent implements OnInit {
   }
   
   refreshFiles() {
-    this.http.get('/myapi/heroes')
+    this.http.get<string[]>('/myapi/heroes')
       .subscribe({
-        next: (res) => {
+        next: (res: string[]) => {
           console.log('refresh files ok %o', res);
           this.error = '';
+          this.heroes = res;
         },
         error: (error) => {
           console.error('refresh files ko %o', error);

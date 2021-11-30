@@ -13,3 +13,10 @@
 <div class="error" *ngIf="error">
     Only one file at time allow
 </div>
+
+<h2>My Files</h2>
+<ul class="heroes">
+  <li *ngFor="let hero of heroes">
+    {{hero}}
+  </li>
+</ul>
