@@ -18,6 +18,7 @@ export class DropfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.dragAreaClass = "dragarea";
+    this.refreshFiles();
   }
   onDragOver(event: any) {
     this.dragAreaClass = "droparea";
@@ -56,11 +57,33 @@ export class DropfileComponent implements OnInit {
       reader.onload = () => {
         this.http.put('/myapi/files', { name: files[0].name, content: reader.result })
           .subscribe({
-            next: (res) => console.log('file sent ok %o', res),
-            error: (error) => console.error('file sent ko %o', error),
+            next: (res) => { 
+              console.log('file sent ok %o', res);
+              this.error = '';
+              this.refreshFiles();
+            },
+            error: (error) => { 
+              console.error('file sent ko %o', error);
+              this.error = error;
+            }, 
             complete: () => console.info('file put completed')
           });
       };
     }
+  }
+  
+  refreshFiles() {
+    this.http.get('/myapi/heroes')
+      .subscribe({
+        next: (res) => {
+          console.log('refresh files ok %o', res);
+          this.error = '';
+        },
+        error: (error) => {
+          console.error('refresh files ko %o', error);
+          this.error = error;
+        },
+        complete: () => console.info('refresh files completed')
+      });
   }
 }
