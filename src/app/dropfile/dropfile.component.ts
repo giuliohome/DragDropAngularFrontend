@@ -66,7 +66,7 @@ export class DropfileComponent implements OnInit {
             },
             error: (error) => { 
               console.error('file sent ko %o', error);
-              this.error = error;
+              this.error = error.message;
             }, 
             complete: () => console.info('file put completed')
           });
@@ -84,7 +84,7 @@ export class DropfileComponent implements OnInit {
         },
         error: (error) => {
           console.error('refresh files ko %o', error);
-          this.error = error;
+          this.error = error.message;
         },
         complete: () => console.info('refresh files completed')
       });
@@ -98,11 +98,12 @@ export class DropfileComponent implements OnInit {
       .subscribe({
         next: (res) => {
           //console.log('downloadFile ok %o', res);
+          this.error = '';
           importedSaveAs(res, filename);
         },
         error: (error) => {
           console.error('downloadFile %o', error);
-          this.error = error;
+          this.error = error.message;
         },
         complete: () => console.info('downloadFile completed')
       });
