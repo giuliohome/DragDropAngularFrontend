@@ -16,7 +16,7 @@
 
 <h2>My Files</h2>
 <ul class="heroes">
-  <li *ngFor="let hero of heroes">
+  <li *ngFor="let hero of heroes" (click)="downloadFile(hero)">
     {{hero}}
   </li>
 </ul>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {saveAs as importedSaveAs} from "file-saver";
 
 @Component({
   selector: 'app-dropfile',
@@ -88,4 +89,23 @@ export class DropfileComponent implements OnInit {
         complete: () => console.info('refresh files completed')
       });
   }
+  
+  downloadFile(filename: string) {
+    this.http.get<Blob>('/myapi/downloadFile' , { 
+      headers: {filename}, 
+      observe: 'body', responseType: 'blob' as 'json' 
+    })
+      .subscribe({
+        next: (res) => {
+          //console.log('downloadFile ok %o', res);
+          importedSaveAs(res, filename);
+        },
+        error: (error) => {
+          console.error('downloadFile %o', error);
+          this.error = error;
+        },
+        complete: () => console.info('downloadFile completed')
+      });
+  }
+  
 }
